@@ -4,34 +4,47 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { Button } from '@mui/material';
 
-interface SidebarProps {
-  stageChange: any
+type SidebarProps = {
+  stageChange: (payload: {}) => void,
+  stageValue: number,
+  stages: {name: string, value: number}[],
+  goNext: any,
+}
+
+type Item = {
+  name: string,
+  value: number,
 }
 
 export default function Sidebar(props: SidebarProps) {
-  const [stage, setStage] = React.useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
-    setStage(event.target.value as string);
+    props.stageChange(
+      {[event.target.name]: event.target.value}
+    )
   };
+
+  const items = props.stages.map((item: Item) => (
+    <MenuItem value={item.value.toString()}>{item.name}</MenuItem>
+  ));
 
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        <InputLabel id="demo-simple-select-label">Estágio</InputLabel>
         <Select
           labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={stage}
+          name="stageValue"
+          value={props.stageValue.toString()}
           label="Age"
           onChange={handleChange}
         >
-          <MenuItem value={10}>Ideation</MenuItem>
-          <MenuItem value={20}>Operation</MenuItem>
-          <MenuItem value={30}>Traction</MenuItem>
+          {items}
         </Select>
       </FormControl>
+      <Button onClick={props.goNext}>Proximo</Button>
     </Box>
   )
 }
