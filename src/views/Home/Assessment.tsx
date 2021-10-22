@@ -16,7 +16,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 
 export default function Assessment(props: RootStateAssessment) {
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -27,7 +26,7 @@ export default function Assessment(props: RootStateAssessment) {
         </Grid>
         <Grid item xs={8}>
           <Item>
-            <Stages opacity={props.assessment.fill} />
+            <Stages stage={props.stageValue} />
           </Item>
         </Grid>
       </Grid>

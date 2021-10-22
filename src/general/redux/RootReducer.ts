@@ -4,9 +4,6 @@ import { AnyAction } from 'redux';
 
 const initialState = {
   user: {},
-  assessment: {
-    fill: 1
-  }
 }
 
 export default function createReducer(history: History) {

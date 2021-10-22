@@ -1,22 +1,37 @@
-import React from 'react'
-
-interface Opacity {
-  opacity: number,
+interface StagesProps {
+  stage: number,
 }
 
-export default function index(props: Opacity) {
-  const opacity = {
-    'fillOpacity': props.opacity,
-    'strokeOpacity': props.opacity,
-  }
+const on = 1;
+const off = 0.5;
+
+const createOpacity = (fill: number) => ({
+  'fillOpacity': fill,
+  'strokeOpacity': fill,
+});
+
+const opacityOn = createOpacity(on);
+const opacityOff =  createOpacity(off);
+
+export default function index(props: StagesProps) {
+  const ideation = props.stage === 1? opacityOn: opacityOff;
+  const operation = props.stage === 2? opacityOn: opacityOff;
+  const traction = props.stage === 3? opacityOn: opacityOff;
+  const scaling = props.stage === 4? opacityOn: opacityOff;
+  const establishing = props.stage === 5? opacityOn: opacityOff;
+
+  const solutionFit =  props.stage === 1 || props.stage === 2? opacityOn: opacityOff;
+  const marketFit = props.stage === 3? opacityOn: opacityOff;
+  const scalingUp = props.stage === 4 || props.stage === 5? opacityOn: opacityOff;
+
   return (
     <div>
     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" width="701px" height="212px" viewBox="-0.5 -0.5 701 212">
       <defs>
-        <style type="text/css" dangerouslySetInnerHTML={{__html: "\n            @import url(https://fonts.googleapis.com/css?family=Roboto);\n            \n\n          " }} />
+        <style type="text/css" dangerouslySetInnerHTML={{__html: "\n @import url(https://fonts.googleapis.com/css?family=Roboto);\n            \n\n          " }} />
       </defs>
       <g>
-        <path d="M 78.51 88 L 198.51 88 L 198.51 128 L 149.01 128 L 138.51 158 L 128.01 128 L 78.51 128 Z" fill="#10739e" stroke="none" pointerEvents="all" />
+        <path d="M 78.51 88 L 198.51 88 L 198.51 128 L 149.01 128 L 138.51 158 L 128.01 128 L 78.51 128 Z" {...operation} fill="#10739e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -29,7 +44,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={139} y={114} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Concepting</text>
           </switch>
         </g>
-        <path d="M 198.51 88 L 358.51 88 L 358.51 128 L 289.01 128 L 278.51 158 L 268.01 128 L 198.51 128 Z" {...opacity} fill="#f2931e" stroke="none" pointerEvents="all" />
+        <path d="M 198.51 88 L 358.51 88 L 358.51 128 L 289.01 128 L 278.51 158 L 268.01 128 L 198.51 128 Z" {...traction} fill="#f2931e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -42,7 +57,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={279} y={114} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Commitment</text>
           </switch>
         </g>
-        <path d="M -0.49 88 L 79.51 88 L 79.51 128 L 50.01 128 L 39.51 158 L 29.01 128 L -0.49 128 Z" fill="#ae4132" stroke="none" pointerEvents="all" />
+        <path d="M -0.49 88 L 79.51 88 L 79.51 128 L 50.01 128 L 39.51 158 L 29.01 128 L -0.49 128 Z" {...ideation} fill="#ae4132" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -55,7 +70,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={40} y={114} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Ideation</text>
           </switch>
         </g>
-        <path d="M 355.51 88 L 555.51 88 L 555.51 128 L 466.01 128 L 455.51 158 L 445.01 128 L 355.51 128 Z" fill="#23445d" stroke="none" pointerEvents="all" />
+        <path d="M 355.51 88 L 555.51 88 L 555.51 128 L 466.01 128 L 455.51 158 L 445.01 128 L 355.51 128 Z" {...scaling} fill="#23445d" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -68,7 +83,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={456} y={114} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Scaling</text>
           </switch>
         </g>
-        <path d="M 555.51 88 L 695.51 88 L 695.51 128 L 636.01 128 L 625.51 158 L 615.01 128 L 555.51 128 Z" fill="#12aab5" stroke="none" pointerEvents="all" />
+        <path d="M 555.51 88 L 695.51 88 L 695.51 128 L 636.01 128 L 625.51 158 L 615.01 128 L 555.51 128 Z" {...establishing} fill="#12aab5" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -133,7 +148,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={414} y={20} fill="#FFFFFF" fontFamily="Helvetica" fontSize="17px" fontWeight="bold">Scaleup</text>
           </switch>
         </g>
-        <path d="M -0.49 80 L 19.51 60 L -0.49 40 L 85.51 40 L 105.51 60 L 85.51 80 Z" fill="#10739e" stroke="none" pointerEvents="all" />
+        <path d="M -0.49 80 L 19.51 60 L -0.49 40 L 85.51 40 L 105.51 60 L 85.51 80 Z" {...ideation} fill="#10739e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -146,7 +161,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={53} y={64} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Ideation</text>
           </switch>
         </g>
-        <path d="M 93.51 80 L 113.51 60 L 93.51 40 L 199.51 40 L 219.51 60 L 199.51 80 Z" fill="#10739e" stroke="none" pointerEvents="all" />
+        <path d="M 93.51 80 L 113.51 60 L 93.51 40 L 199.51 40 L 219.51 60 L 199.51 80 Z" {...operation} fill="#10739e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -159,7 +174,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={157} y={64} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Operation</text>
           </switch>
         </g>
-        <path d="M 207.51 81 L 227.51 61 L 207.51 41 L 339.51 41 L 359.51 61 L 339.51 81 Z" fill="#10739e" stroke="none" pointerEvents="all" />
+        <path d="M 207.51 81 L 227.51 61 L 207.51 41 L 339.51 41 L 359.51 61 L 339.51 81 Z" {...traction} fill="#10739e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -172,7 +187,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={284} y={65} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Traction</text>
           </switch>
         </g>
-        <path d="M 346.51 80 L 366.51 60 L 346.51 40 L 676.51 40 L 696.51 60 L 676.51 80 Z" fill="#10739e" stroke="none" pointerEvents="all" />
+        <path d="M 346.51 80 L 366.51 60 L 346.51 40 L 676.51 40 L 696.51 60 L 676.51 80 Z" {...scalingUp} fill="#10739e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -185,7 +200,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={522} y={64} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Scaling Up</text>
           </switch>
         </g>
-        <path d="M 183.51 210 L 203.51 190 L 183.51 170 L 334.51 170 L 354.51 190 L 334.51 210 Z" fill="#10739e" stroke="none" pointerEvents="all" />
+        <path d="M 183.51 210 L 203.51 190 L 183.51 170 L 334.51 170 L 354.51 190 L 334.51 210 Z" {...marketFit} fill="#10739e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
@@ -198,7 +213,7 @@ export default function index(props: Opacity) {
             </foreignObject><text x={269} y={194} fill="#ffffff" fontFamily="Helvetica" fontSize="14px" textAnchor="middle" fontWeight="bold">Product/Market Fit</text>
           </switch>
         </g>
-        <path d="M -0.49 210 L 19.51 190 L -0.49 170 L 177.51 170 L 197.51 190 L 177.51 210 Z" fill="#10739e" stroke="none" pointerEvents="all" />
+        <path d="M -0.49 210 L 19.51 190 L -0.49 170 L 177.51 170 L 197.51 190 L 177.51 210 Z" {...solutionFit} fill="#10739e" stroke="none" pointerEvents="all" />
         <g transform="translate(-0.5 -0.5)">
           <switch>
             <foreignObject style={{overflow: 'visible', textAlign: 'left'}} pointerEvents="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
