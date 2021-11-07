@@ -1,12 +1,17 @@
-import { takeLatest, put } from "redux-saga/effects";
 import axios from 'axios';
-
+import { push } from "connected-react-router";
+import { Action } from "redux";
+import { takeLatest, put } from "redux-saga/effects";
 const instance = axios.create({
   baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 })
-/*
-function * prepare(action: any) {
+
+interface MetaAction extends Action {
+  meta: any
+}
+
+function * prepare(action: MetaAction) {
   try {
     const { data: payload } = yield instance.get('/search');
     yield put({
@@ -22,8 +27,7 @@ function * prepare(action: any) {
   }
 
 }
-*/
 
 export default function* watchSave() {
-  //yield takeLatest('SEARCH', prepare)
+  yield takeLatest("ASSESSMENT_SAVE_STEP", prepare)
 }

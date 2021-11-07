@@ -1,9 +1,5 @@
 import { Button } from '@mui/material'
-import { History } from 'history';
-
-interface HistoryProps {
-  history: History
-}
+import { HistoryProps } from 'general/types/HistoryType';
 
 export default function Container(props: HistoryProps) {
   const history = props.history;

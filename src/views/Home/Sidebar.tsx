@@ -5,40 +5,39 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { Button } from '@mui/material';
-
-type SidebarProps = {
-  stageChange: (payload: {}) => void,
-  stageValue: number,
-  stages: {name: string, value: number}[],
-  goNext: any,
-}
+import { RootStateAssessment } from './redux';
 
 type Item = {
   name: string,
   value: number,
 }
 
-export default function Sidebar(props: SidebarProps) {
+export default function Sidebar(props: RootStateAssessment) {
 
   const handleChange = (event: SelectChangeEvent) => {
-    props.stageChange(
-      {[event.target.name]: event.target.value}
-    )
+    props.stageChange({
+      [event.target.name]: Number(event.target.value)
+    })
   };
 
-  const items = props.stages.map((item: Item) => (
-    <MenuItem value={item.value.toString()}>{item.name}</MenuItem>
-  ));
+  const items = props.stages.map( (item: Item) => (
+    <MenuItem 
+      key={`item-${item.name}`}
+      value={ item.value.toString() }
+    >
+        {item.name}
+    </MenuItem>
+  ))
 
   return (
     <Box sx={{ minWidth: 120 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Estágio</InputLabel>
+        <InputLabel id="stages-select-label">Estágio do Produto</InputLabel>
         <Select
-          labelId="demo-simple-select-label"
+          labelId="stages-select-label"
           name="stageValue"
           value={props.stageValue.toString()}
-          label="Age"
+          label="Estágio do Produto"
           onChange={handleChange}
         >
           {items}
