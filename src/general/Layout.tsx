@@ -1,15 +1,11 @@
-import { AppBar, Toolbar } from '@mui/material'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren } from 'react';
+import TopBar from './TopBar';
 
 export default function Layout(props: PropsWithChildren<{}>) {
   return (
     <div>
-      <AppBar position="static">
-        <Toolbar>
-          <div>logo</div>
-        </Toolbar>
-      </AppBar>
+      <TopBar />
       {props.children}
     </div>
-  )
+  );
 }
