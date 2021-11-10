@@ -1,6 +1,9 @@
 import { AppBar, Breadcrumbs, Grid, Link, Toolbar } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { StoreType } from './redux/RootReducer';
 
 export default function TopBar() {
+  const menuOptions = useSelector((state: StoreType) => state.menuOptions);
   return (
     <AppBar position="static" color="transparent" style={{ marginBottom: 10, paddingTop: 5 }}>
       <Toolbar>
@@ -9,15 +12,11 @@ export default function TopBar() {
         </div>
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
           <Breadcrumbs aria-label="breadcrumb" style={{ width: 400 }} separator="›">
-            <Link underline="hover" color="text.primary" href="#">
-              Produto
-            </Link>
-            <Link underline="hover" color="inherit" href="#">
-              Estagio do Produto
-            </Link>
-            <Link underline="hover" color="inherit" href="#">
-              Avaliação
-            </Link>
+            {menuOptions.map((option) => (
+              <Link underline="hover" color={option.active ? 'text.primary' : 'inherit'} href="#">
+                {option.context}
+              </Link>
+            ))}
           </Breadcrumbs>
         </Grid>
       </Toolbar>
