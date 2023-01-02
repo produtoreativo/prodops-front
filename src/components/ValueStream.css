@@ -1,0 +1,46 @@
+.save__controls {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 4;
+  font-size: 12px;
+}
+
+.save__controls button {
+  margin-left: 5px;
+}
+
+.react-flow__node.contact_point {
+  border: 1px solid black;
+  padding: 50px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-flow__node.service {
+  padding: 25px;
+  border: 1px solid black;
+  border-style: dashed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-flow__node.product {
+  padding: 25px;
+  border: 1px solid black;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.react-flow__node.application {
+  padding: 25px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
