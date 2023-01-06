@@ -1,24 +1,37 @@
 import { Route, Switch } from 'react-router-dom';
+import PrivateRoute from './components/PrivateRoute';
 import ApplicationsPage from './pages/ApplicationsPage';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import ProductsPage from './pages/ProductsPage';
 import ServicesPage from './pages/ServicesPage';
 import ValueStreamsPage from './pages/ValueStreamsPage';
+import ValueStreamsShowPage from './pages/ValueStreamsShowPage';
 
 const Routes = () => {
   return (
     <Switch>
-      <Route exact path="/value_streams">
+      <Route exact path="/login">
+        <LoginPage />
+      </Route>
+      <Route exact path="/register">
+        <RegisterPage />
+      </Route>
+      <PrivateRoute exact path="/value_streams">
         <ValueStreamsPage />
-      </Route>
-      <Route exact path="/services">
+      </PrivateRoute>
+      <PrivateRoute exact path="/value_streams_show">
+        <ValueStreamsShowPage />
+      </PrivateRoute>
+      <PrivateRoute exact path="/services">
         <ServicesPage />
-      </Route>
-      <Route exact path="/products">
+      </PrivateRoute>
+      <PrivateRoute exact path="/products">
         <ProductsPage />
-      </Route>
-      <Route exact path="/applications">
+      </PrivateRoute>
+      <PrivateRoute exact path="/applications">
         <ApplicationsPage />
-      </Route>
+      </PrivateRoute>
     </Switch>
   );
 };

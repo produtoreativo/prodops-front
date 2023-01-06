@@ -13,8 +13,7 @@ import {
 } from '@mui/material';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { useCallback, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { FC, useCallback, useState } from 'react';
 import ReactFlow, {
   addEdge,
   Background,
@@ -28,15 +27,143 @@ import ReactFlow, {
   useEdgesState,
   useNodesState,
 } from 'reactflow';
-import { v4 as uuidv4 } from 'uuid';
 
 import 'reactflow/dist/style.css';
-import { saveValueStreamRequest } from '../api';
 import './ValueStream.css';
 
-const initialNodes: Node[] = [];
+// const flowKey = 'example-flow';
 
-const initialEdges: Edge[] = [];
+const req_data = {
+  id: 1,
+  name: 'jack-doe-scan-1',
+  provider: {
+    id: 1,
+    name: 'amazon',
+    content: '',
+  },
+  resourceView: {
+    id: 1,
+    name: 'jack-doe-rv-1234',
+    arn: 'arn:aws:resource-explorer-2:us-east-1:513154394236:view/jack-doe-rv-1234/c6353db8-42db-4196-9f72-aa40c9697227',
+  },
+  resources: [
+    {
+      id: 1,
+      name: 'arn:aws:ec2:ap-northeast-1:513154394236:security-group-rule/sgr-0c77edd5bfded7377',
+      scanContent: {
+        Arn: 'arn:aws:ec2:ap-northeast-1:513154394236:security-group-rule/sgr-0c77edd5bfded7377',
+        LastReportedAt: '2022-12-31T12:53:03.000Z',
+        OwningAccountId: '513154394236',
+        Properties: [],
+        Region: 'ap-northeast-1',
+        ResourceType: 'ec2:security-group-rule',
+        Service: 'ec2',
+      },
+    },
+    {
+      id: 2,
+      name: 'arn:aws:ec2:ap-southeast-2:513154394236:subnet/subnet-022a491b94a4d9253',
+      scanContent: {
+        Arn: 'arn:aws:ec2:ap-southeast-2:513154394236:subnet/subnet-022a491b94a4d9253',
+        LastReportedAt: '2023-01-01T13:59:23.000Z',
+        OwningAccountId: '513154394236',
+        Properties: [],
+        Region: 'ap-southeast-2',
+        ResourceType: 'ec2:subnet',
+        Service: 'ec2',
+      },
+    },
+    {
+      id: 3,
+      name: 'arn:aws:ec2:us-west-1:513154394236:subnet/subnet-09480c69c6c7b1c6f',
+      scanContent: {
+        Arn: 'arn:aws:ec2:us-west-1:513154394236:subnet/subnet-09480c69c6c7b1c6f',
+        LastReportedAt: '2023-01-02T03:21:12.000Z',
+        OwningAccountId: '513154394236',
+        Properties: [],
+        Region: 'us-west-1',
+        ResourceType: 'ec2:subnet',
+        Service: 'ec2',
+      },
+    },
+    {
+      id: 4,
+      name: 'arn:aws:ec2:us-east-1:513154394236:security-group/sg-0469140e79015ce38',
+      scanContent: {
+        Arn: 'arn:aws:ec2:us-east-1:513154394236:security-group/sg-0469140e79015ce38',
+        LastReportedAt: '2023-01-02T01:52:59.000Z',
+        OwningAccountId: '513154394236',
+        Properties: [],
+        Region: 'us-east-1',
+        ResourceType: 'ec2:security-group',
+        Service: 'ec2',
+      },
+    },
+  ],
+};
+
+
+
+const getNodeId = () => `node_${+new Date()}`;
+
+const initialNodes: Node[] =
+
+  [
+    // {
+    //   "width": 150,
+    //   "height": 130,
+    //   "id": "node_1672840143984",
+    //   "data": {
+    //     "label": "start here"
+    //   },
+    //   "position": {
+    //     "x": 743.0840131136266,
+    //     "y": 442.59902753052006
+    //   },
+    //   "className": "contact_point",
+    //   "positionAbsolute": {
+    //     "x": 743.0840131136266,
+    //     "y": 442.59902753052006
+    //   }
+    // },
+    // {
+    //   "width": 150,
+    //   "height": 66,
+    //   "id": "node_1672840202005",
+    //   "data": {
+    //     "label": "EC2"
+    //   },
+    //   "position": {
+    //     "x": 564.0285833545963,
+    //     "y": 642.6122019085728
+    //   },
+    //   "className": "service",
+    //   "selected": true,
+    //   "positionAbsolute": {
+    //     "x": 564.0285833545963,
+    //     "y": 642.6122019085728
+    //   },
+    //   "dragging": false
+    // }
+  ];
+
+const initialEdges: Edge[] =   [
+  // {
+  //   "source": "node_1672840143984",
+  //   "sourceHandle": null,
+  //   "target": "node_1672840202005",
+  //   "targetHandle": null,
+  //   "type": "step",
+  //   "markerEnd": {
+  //     type: MarkerType.ArrowClosed,
+  //     "color": "#000"
+  //   },
+  //   "style": {
+  //     "stroke": "#000"
+  //   },
+  //   "id": "reactflow__edge-node_1672840143984-node_1672840202005"
+  // }
+];
 
 const ComponentDialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }) => {
   const initState = { component: '', label: '' };
@@ -95,7 +222,6 @@ const ComponentDialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }
             </Box>
             <Box>
               <TextField
-                autoComplete='true'
                 fullWidth
                 label="Text"
                 variant="outlined"
@@ -119,17 +245,22 @@ const ComponentDialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }
   );
 };
 
-const ValueStream = () => {
-  const history = useHistory()
+interface ValueStreamParams {
+  edgesParam: Array<Edge>;
+  nodesParam: Array<Node>;
+}
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+const ValueStreamShow: FC<ValueStreamParams> = ({edgesParam, nodesParam}) => {
+
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(nodesParam );
+  const [edges, setEdges, onEdgesChange] = useEdgesState(edgesParam);
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance>();
   // const { setViewport } = useReactFlow();
 
   function createComponent(params: { component: string; label: string }) {
     const newNode: Node = {
-      id: uuidv4(),
+      id: getNodeId(),
       data: { label: params.label },
       position: {
         x: Math.random() * window.innerWidth - 100,
@@ -175,20 +306,12 @@ const ValueStream = () => {
     [setNodes]
   );
 
-  const onSave = useCallback(async () => {
-    if (rfInstance) {
-      try {
-        const flow = rfInstance.toObject();
-        console.log(flow)
-        await saveValueStreamRequest(flow);
-        setNodes(initialNodes)
-        setEdges(initialEdges)
-        history.push('/');
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  }, [rfInstance]);
+  // const onSave = useCallback(() => {
+  //   if (rfInstance) {
+  //     const flow = rfInstance.toObject();
+  //     localStorage.setItem(flowKey, JSON.stringify(flow));
+  //   }
+  // }, [rfInstance]);
 
   return (
     <Grid style={{ height: '100%' }}>
@@ -211,7 +334,12 @@ const ValueStream = () => {
               <Box>
                 <Button
                   variant="contained"
-                  onClick={onSave}
+                  onClick={() => {
+                    if (rfInstance) {
+                      const flow = rfInstance.toObject();
+                      console.log(JSON.stringify(flow, null, 2));
+                    }
+                  }}
                 >
                   + Save
                 </Button>
@@ -226,4 +354,4 @@ const ValueStream = () => {
   );
 };
 
-export default ValueStream;
+export default ValueStreamShow;
