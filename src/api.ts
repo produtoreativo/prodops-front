@@ -58,6 +58,11 @@ export const saveValueStreamRequest = async (data: any) => {
   return response.data;
 };
 
+export const getValueStreamsRequest = async (id?: number) => {
+  const response = await axiosInstance.get(`/value-streams/${id ? id : ''}`);
+  return response.data;
+};
+
 export const getScan = async (id?: number) => {
   const response = await axiosInstance.get(`/scans/${id ? id : ''}`);
   return response.data;

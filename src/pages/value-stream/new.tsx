@@ -1,6 +1,6 @@
 import { Box, Typography } from '@mui/material';
+import ValueStream from '../../components/ValueStream';
 
-import ValueStreams from '../components/ValueStream';
 
 const ValueStreamsPage = () => {
   return (
@@ -9,7 +9,7 @@ const ValueStreamsPage = () => {
         Value Streams
       </Typography>
       <Box sx={{ height: '90%' }}>
-        <ValueStreams />
+        <ValueStream />
       </Box>
     </Box>
   );

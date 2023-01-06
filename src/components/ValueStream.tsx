@@ -122,6 +122,8 @@ const ComponentDialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }
 const ValueStream = () => {
   const history = useHistory()
 
+  const [canvasName, setCanvasName] = useState('')
+
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance>();
@@ -175,23 +177,39 @@ const ValueStream = () => {
     [setNodes]
   );
 
-  const onSave = useCallback(async () => {
+  const onSave = async () => {
     if (rfInstance) {
       try {
         const flow = rfInstance.toObject();
-        console.log(flow)
-        await saveValueStreamRequest(flow);
+
+        if( !canvasName.trim() ) return false;
+        if( !flow.nodes.length ) return false;
+
+        await saveValueStreamRequest({name: canvasName, ...flow});
         setNodes(initialNodes)
         setEdges(initialEdges)
-        history.push('/');
+        history.push('/value_streams');
       } catch (error) {
         console.log(error);
       }
     }
-  }, [rfInstance]);
+  };
 
   return (
     <Grid style={{ height: '100%' }}>
+      <Box sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <TextField
+          label="Canvas name"
+          value={canvasName}
+          variant="outlined"
+          onChange={(e) => {
+            setCanvasName(e.target.value);
+          }}
+        />
+      </Box>
       <ReactFlowProvider>
         <ReactFlow
           fitView
@@ -209,10 +227,7 @@ const ValueStream = () => {
                 <ComponentDialogForm addNodeCb={addNode} />
               </Box>
               <Box>
-                <Button
-                  variant="contained"
-                  onClick={onSave}
-                >
+                <Button variant="contained" onClick={onSave}>
                   + Save
                 </Button>
               </Box>
