@@ -29,7 +29,7 @@ import ReactFlow, {
 } from 'reactflow';
 
 import 'reactflow/dist/style.css';
-import './ValueStream.css';
+import './ValueStreamForm.css';
 
 // const flowKey = 'example-flow';
 

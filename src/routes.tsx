@@ -7,7 +7,7 @@ import ProductsPage from './pages/ProductsPage';
 import ServicesPage from './pages/ServicesPage';
 import ValueStreamsPage from './pages/value-stream/new';
 import ValueStreamsShowPage from './pages/ValueStreamsShowPage';
-import ValueStreamsListPage from './pages/value-stream/llist';
+import ValueStreamsListPage from './pages/value-stream/list';
 
 const Routes = () => {
   return (
@@ -22,6 +22,9 @@ const Routes = () => {
         <ValueStreamsListPage />
       </PrivateRoute>
       <PrivateRoute exact path="/value_streams/new">
+        <ValueStreamsPage />
+      </PrivateRoute>
+      <PrivateRoute exact path="/value_streams/:id/edit">
         <ValueStreamsPage />
       </PrivateRoute>
       <PrivateRoute exact path="/value_streams_show">

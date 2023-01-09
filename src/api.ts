@@ -57,9 +57,18 @@ export const saveValueStreamRequest = async (data: any) => {
   const response = await axiosInstance.post('/value-streams', data);
   return response.data;
 };
+export const updateValueStreamRequest = async (data: any) => {
+  const response = await axiosInstance.patch(`/value-streams/${data.id}`, data);
+  return response.data;
+};
 
-export const getValueStreamsRequest = async (id?: number) => {
+export const getValueStreamsRequest = async (id?: string) => {
   const response = await axiosInstance.get(`/value-streams/${id ? id : ''}`);
+  return response.data;
+};
+
+export const removeValueStreamsRequest = async (id?: string) => {
+  const response = await axiosInstance.delete(`/value-streams/${id ? id : ''}`);
   return response.data;
 };
 

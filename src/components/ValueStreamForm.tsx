@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -10,12 +11,11 @@ import {
   Grid,
   Radio,
   RadioGroup,
+  TextField,
 } from '@mui/material';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { useCallback, useState } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import ReactFlow, {
+import {
   addEdge,
   Background,
   Connection,
@@ -23,22 +23,18 @@ import ReactFlow, {
   Edge,
   MarkerType,
   Node,
+  ReactFlow,
   ReactFlowInstance,
   ReactFlowProvider,
   useEdgesState,
   useNodesState,
 } from 'reactflow';
 import { v4 as uuidv4 } from 'uuid';
+import { saveValueStreamRequest, updateValueStreamRequest } from '../api';
 
-import 'reactflow/dist/style.css';
-import { saveValueStreamRequest } from '../api';
-import './ValueStream.css';
+import './ValueStreamForm.css';
 
-const initialNodes: Node[] = [];
-
-const initialEdges: Edge[] = [];
-
-const ComponentDialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }) => {
+const DialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }) => {
   const initState = { component: '', label: '' };
 
   const [open, setOpen] = useState(false);
@@ -95,7 +91,7 @@ const ComponentDialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }
             </Box>
             <Box>
               <TextField
-                autoComplete='true'
+                autoComplete="true"
                 fullWidth
                 label="Text"
                 variant="outlined"
@@ -119,13 +115,22 @@ const ComponentDialogForm = ({ addNodeCb }: { addNodeCb: (params: any) => void }
   );
 };
 
-const ValueStream = () => {
-  const history = useHistory()
+type ValueStreamFormInput = {
+  valueStream?: {
+    id?: string;
+    name: string;
+    nodes: Array<Node>;
+    edges: Array<Edge>;
+  };
+};
 
-  const [canvasName, setCanvasName] = useState('')
+const ValueStreamForm: FC<ValueStreamFormInput> = ({ valueStream }) => {
+  const history = useHistory();
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [canvasName, setCanvasName] = useState(valueStream?.name || '');
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(valueStream?.nodes || []);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(valueStream?.edges || []);
   const [rfInstance, setRfInstance] = useState<ReactFlowInstance>();
   // const { setViewport } = useReactFlow();
 
@@ -182,12 +187,20 @@ const ValueStream = () => {
       try {
         const flow = rfInstance.toObject();
 
-        if( !canvasName.trim() ) return false;
-        if( !flow.nodes.length ) return false;
+        if (!canvasName.trim()) return false;
+        if (!flow.nodes.length) return false;
 
-        await saveValueStreamRequest({name: canvasName, ...flow});
-        setNodes(initialNodes)
-        setEdges(initialEdges)
+        const params = { name: canvasName, ...flow };
+
+        if (valueStream && valueStream.id) {
+         // update req
+         await updateValueStreamRequest({id: valueStream.id, ...params})
+        }else{
+          await saveValueStreamRequest(params);
+        }
+
+        setNodes([]);
+        setEdges([]);
         history.push('/value_streams');
       } catch (error) {
         console.log(error);
@@ -197,10 +210,12 @@ const ValueStream = () => {
 
   return (
     <Grid style={{ height: '100%' }}>
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+        }}
+      >
         <TextField
           label="Canvas name"
           value={canvasName}
@@ -224,7 +239,7 @@ const ValueStream = () => {
           <div className="save__controls">
             <Box sx={{ display: 'flex' }}>
               <Box>
-                <ComponentDialogForm addNodeCb={addNode} />
+                <DialogForm addNodeCb={addNode} />
               </Box>
               <Box>
                 <Button variant="contained" onClick={onSave}>
@@ -241,4 +256,4 @@ const ValueStream = () => {
   );
 };
 
-export default ValueStream;
+export default ValueStreamForm;

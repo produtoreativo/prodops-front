@@ -11,16 +11,35 @@ import {
   Typography,
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getValueStreamsRequest } from '../../api';
+import { Link, useHistory } from 'react-router-dom';
+import { getValueStreamsRequest, removeValueStreamsRequest } from '../../api';
+import TableCellActions from '../../components/TableCellActions';
 
 const ValueStreamsListPage = () => {
+  const history = useHistory()
   const [valueStreams, setValueStreams] = useState<Array<{ id: string; name: string }>>([]);
 
   async function getValuesStreams() {
     try {
       const list = await getValueStreamsRequest();
       setValueStreams(list);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleDeleteRecord(id: string) {
+    try {
+      const response = await removeValueStreamsRequest(id);
+      getValuesStreams();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function handleEditRecord(id: string) {
+    try {
+      history.push(`/value_streams/${id}/edit`)
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +85,11 @@ const ValueStreamsListPage = () => {
                   <TableCell component="th" scope="row">
                     {valueStream.name || 'No name defined'}
                   </TableCell>
+                  <TableCellActions
+                    id={valueStream.id}
+                    handleEditRecord={handleEditRecord}
+                    handleDeleteRecord={handleDeleteRecord}
+                  />
                 </TableRow>
               ))}
             </TableBody>
