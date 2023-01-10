@@ -72,6 +72,25 @@ export const removeValueStreamsRequest = async (id?: string) => {
   return response.data;
 };
 
+export const getOrganizationsRequest = async (id?: string) => {
+  const response = await axiosInstance.get(`/organizations/${id ? id : ''}`);
+  return response.data;
+};
+export const saveOrganizationsRequest = async (data: any) => {
+  const response = await axiosInstance.post(`/organizations`, data);
+  return response.data;
+};
+
+export const updateOrganizationsRequest = async (data: any) => {
+  const response = await axiosInstance.patch(`/organizations/${data.id}`, data);
+  return response.data;
+};
+
+export const removeOrganizationsRequest = async (id: string) => {
+  const response = await axiosInstance.delete(`/organizations/${id}`);
+  return response.data;
+};
+
 export const getScan = async (id?: number) => {
   const response = await axiosInstance.get(`/scans/${id ? id : ''}`);
   return response.data;

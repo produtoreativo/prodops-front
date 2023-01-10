@@ -7,6 +7,7 @@ import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
 import { FC } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -70,6 +71,14 @@ const Layout: FC<any> = ({ children }) => {
                     <DesignServicesIcon />
                   </ListItemIcon>
                   <ListItemText primary={'Services'} />
+                </ListItem>
+              </Link>
+              <Link to="/organizations">
+                <ListItem button>
+                  <ListItemIcon>
+                    <AccountBalanceIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={'Organizations'} />
                 </ListItem>
               </Link>
               <Link to="/products">

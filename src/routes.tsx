@@ -8,6 +8,8 @@ import ServicesPage from './pages/ServicesPage';
 import ValueStreamsPage from './pages/value-stream/new';
 import ValueStreamsShowPage from './pages/ValueStreamsShowPage';
 import ValueStreamsListPage from './pages/value-stream/list';
+import OrganizationListPage from './pages/organizations/list';
+import OrganizationPage from './pages/organizations/new';
 
 const Routes = () => {
   return (
@@ -32,6 +34,15 @@ const Routes = () => {
       </PrivateRoute>
       <PrivateRoute exact path="/services">
         <ServicesPage />
+      </PrivateRoute>
+      <PrivateRoute exact path="/organizations">
+        <OrganizationListPage />
+      </PrivateRoute>
+      <PrivateRoute exact path="/organizations/new">
+        <OrganizationPage />
+      </PrivateRoute>
+      <PrivateRoute exact path="/organizations/:id/edit">
+        <OrganizationPage />
       </PrivateRoute>
       <PrivateRoute exact path="/products">
         <ProductsPage />
